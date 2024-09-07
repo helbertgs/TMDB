@@ -1,5 +1,5 @@
 import SwiftUI
 
-public protocol MovieViewModelProtocol: ObservableObject {
+public protocol MovieInteractorProtocol {
 
 }

@@ -1,8 +1,8 @@
 import XCTest
 @testable import TMDB
 
-final class MovieViewModelTests: XCTestCase {
+final class MovieInteractorTests: XCTestCase {
     func testExample() throws {
-        let viewModel = MovieViewModelMock()
+        let viewModel = MovieInteractorMock()
     }
 }
