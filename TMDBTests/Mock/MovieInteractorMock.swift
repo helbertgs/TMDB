@@ -14,6 +14,8 @@ public class MovieInteractorMock: MovieInteractorProtocol {
     }
 
     public func fetchMovies() {
+        page += 1
+        lang = "en-US"
     }
 
     public func filterPopularMovies() {

@@ -35,4 +35,16 @@ final class MovieInteractorTests: XCTestCase {
         // Then filterUpcomingMoviesCounter is equal 1
         XCTAssertEqual(interactor.filterUpcomingMoviesCounter, 1)
     }
+
+    func testMoviesInteractor_requestMovies() {
+        // Given a MovieInteractor
+        let interactor = MovieInteractorMock(presenter: MoviePresenterDummy(), networkService: NetworkServiceMock())
+
+        // When fetchMovies function is called
+        interactor.fetchMovies()
+
+        // Then page is equal 1 and lang is equal = "en-US"
+        XCTAssertEqual(interactor.page, 1)
+        XCTAssertEqual(interactor.lang, "en-US")
+    }
 }
