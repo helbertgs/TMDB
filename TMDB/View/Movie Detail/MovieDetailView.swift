@@ -1,32 +1,49 @@
 import SwiftUI
 
+@MainActor
 class MovieDetailViewModel: ObservableObject {
-    @Published var movie: Movie?
-    @Published var cast: [Cast] = []
+    @Published var movie: Movie
+    @Published var cast: [Cast]
+
+    init(movie: Movie, cast: [Cast] = []) {
+        self.movie = movie
+        self.cast = cast
+    }
 }
 
-struct MovieDetailView: View {
-    @ObservedObject var viewModel: MovieDetailViewModel = .init()
+struct MovieDetailView: View, MovieDetailViewProtocol {
+    var interactor: (any MovieDetailInteractorProtocol)?
+    @ObservedObject var viewModel: MovieDetailViewModel
     @State var isLoading: Bool = true
 
+    @Environment(\.dismiss) var dismiss
+
     var body: some View {
-        if let movie = viewModel.movie {
+        ZStack {
             ScrollView(.vertical) {
-                VStack {
+                LazyVStack {
+                    HStack {
+                        Spacer()
+                        Image(systemName: "x.circle.fill")
+                            .resizable()
+                            .frame(width: 24, height:  24)
+                            .foregroundStyle(.gray)
+                            .onTapGesture { dismiss() }
+                    }
+
                     ImageDownloader
                         .shared
-                        .download(backdrop: movie, completion: { isLoading = false })
+                        .download(image: "/original\(viewModel.movie.backdropPath ?? "")", completion: { isLoading = false })
                         .redacted(reason: isLoading ? .placeholder : .invalidated)
-                        .frame(width: UIScreen.main.bounds.width - 32, height: 256)
                         .background(Color.gray.opacity(0.25))
                         .cornerRadius(8)
 
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("\(movie.originalTitle ?? "") (\(getYearFromReleaseDate(movie.releaseDate)))")
+                    LazyVStack(alignment: .leading, spacing: 8) {
+                        Text("\(viewModel.movie.title ?? "") (\(getYearFromReleaseDate(viewModel.movie.releaseDate ?? "")))")
                             .font(Font.system(size: 17, weight: .bold))
                             .foregroundColor(.black)
 
-                        Text(movie.genreIDS!.compactMap {$0.name }.joined(separator: ", "))
+                        Text("\(getGenresFromMovie(viewModel.movie)) - \(getRunTimeFromMovie(viewModel.movie))")
                             .font(Font.system(size: 11))
                             .foregroundColor(.black)
 
@@ -34,20 +51,18 @@ struct MovieDetailView: View {
                             .font(Font.system(size: 14, weight: .bold))
                             .foregroundColor(.black)
 
-                        Text(movie.overview ?? "")
+                        Text(viewModel.movie.overview ?? "")
                             .font(Font.system(size: 11))
                             .foregroundColor(.black)
 
-                        if !viewModel.cast.isEmpty {
-                            Text("Elenco")
-                                .font(Font.system(size: 14, weight: .bold))
-                                .foregroundColor(.black)
+                        Text("Elenco")
+                            .font(Font.system(size: 14, weight: .bold))
+                            .foregroundColor(.black)
 
-                            ScrollView(.horizontal) {
-                                HStack(alignment: .top, spacing: 8) {
-                                    ForEach(viewModel.cast, id: \.id) { actor in
-                                        MovieDetailCastView(cast: actor)
-                                    }
+                        ScrollView(.horizontal) {
+                            LazyHStack(alignment: .top, spacing: 8) {
+                                ForEach(viewModel.cast, id: \.self) { actor in
+                                    MovieDetailCastView(cast: actor)
                                 }
                             }
                         }
@@ -56,9 +71,21 @@ struct MovieDetailView: View {
                 .padding(.all, 16)
             }
         }
-        else {
-            ContentUnavailableView("Movie not found", systemImage: "movieclapper")
+        .task {
+            await interactor?.fetchDetails(from: viewModel.movie)
+            await interactor?.fetchCast(from: viewModel.movie)
         }
+    }
+
+    func update(movie: Movie) async {
+        self.viewModel.movie = movie
+    }
+
+    func update(cast: [Cast]) async {
+        self.viewModel.cast = cast
+    }
+
+    func update(error: any Error) async {
     }
 
     private func getYearFromReleaseDate(_ releaseDate: String?) -> String {
@@ -74,6 +101,19 @@ struct MovieDetailView: View {
 
         return newFormat.string(from: year)
     }
+
+    private func getGenresFromMovie(_ movie: Movie?) -> String {
+        guard let genre = movie?.genres else {
+            return ""
+        }
+
+        return genre.compactMap {$0.name }.joined(separator: ", ")
+    }
+
+    private func getRunTimeFromMovie(_ movie: Movie?) -> String {
+        let minutes = movie?.runtime ?? 0
+        return String(format: "%02dh %02dm", minutes / 60, minutes % 60)
+    }
 }
 
 struct MovieDetailCastView : View {
@@ -84,7 +124,7 @@ struct MovieDetailCastView : View {
         VStack {
             ImageDownloader
                 .shared
-                .download(image: cast.profilePath ?? "", completion: { isLoading = false })
+                .download(image: "/w276_and_h350_face\(cast.profilePath ?? "")", completion: { isLoading = false })
                 .redacted(reason: isLoading ? .placeholder : .invalidated)
                 .frame(width: 150, height: 225)
                 .background(Color.gray.opacity(0.25))
@@ -94,7 +134,6 @@ struct MovieDetailCastView : View {
                 .font(Font.system(size: 12))
                 .fontWeight(.bold)
                 .frame(width: 150)
-                .redacted(reason: isLoading ? .placeholder : .invalidated)
                 .padding(.top, 2)
 
             if let characterName = cast.character {
@@ -103,7 +142,6 @@ struct MovieDetailCastView : View {
                     .font(Font.system(size: 12))
                     .fontWeight(.regular)
                     .frame(width: 150)
-                    .redacted(reason: isLoading ? .placeholder : .invalidated)
                     .padding(.bottom, 16)
             }
         }
@@ -115,8 +153,4 @@ struct MovieDetailCastView : View {
             RoundedRectangle(cornerRadius: 8.0)
         )
     }
-}
-
-#Preview {
-    MovieDetailView()
 }
