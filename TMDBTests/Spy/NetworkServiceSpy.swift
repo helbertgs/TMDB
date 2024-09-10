@@ -1,18 +1,16 @@
 @testable import TMDB
 import SwiftUI
 
-public class NetworkServiceSpy: NetworkServiceProtocol {
+final class NetworkServiceSpy: NetworkServiceProtocol {
 
-    public var scheme: String = ""
-    public var domain: String = ""
-    public var subdomain: String = ""
+    var scheme: String = ""
+    var domain: String = ""
+    var subdomain: String = ""
 
-    public init() {
-
-    }
+    init() { }
 
     var requestCount: Int = 0
-    public func request(_ endpoint: Endpoint, completion: @escaping (Result<Data, Error>) -> Void) {
+    func request(_ endpoint: Endpoint, completion: @escaping (Result<Data, Error>) async -> Void) async {
         requestCount += 1
     }
 }

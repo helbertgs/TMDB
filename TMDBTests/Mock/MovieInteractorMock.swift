@@ -1,26 +1,22 @@
 @testable import TMDB
 import SwiftUI
 
-public class MovieInteractorMock: MovieInteractorProtocol {
+class MovieInteractorMock: MovieInteractorProtocol {
 
-    public var presenter: any MoviePresenterProtocol
-    public var networkService: any NetworkServiceProtocol
-    public var page: Int = 0
-    public var lang: String = ""
+    
+    var presenter: (any MoviePresenterProtocol)?
+    var networkService: (any NetworkServiceProtocol)?
+    var page: Int = 0
+    var lang: String = ""
 
-    public required init(presenter: any MoviePresenterProtocol, networkService: any NetworkServiceProtocol) {
-        self.presenter = presenter
-        self.networkService = networkService
-    }
-
-    public func fetchMovies() {
+    func fetchMovies() async {
         page += 1
         lang = "en-US"
+
+        await networkService?.request(EndpointMock(path: "nowPlaying")) { _ in }
     }
 
-    public func filterPopularMovies() {
-    }
-
-    public func filterUpcomingMovies() {
-    }
+    func fetchPopularMovies() async { }
+    func fetchUpcomingMovies() async { }
+    func displaying(_ movie: Movie) async { }
 }

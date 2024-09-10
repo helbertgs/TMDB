@@ -1,13 +1,10 @@
 @testable import TMDB
 import Foundation
 
-public class NetworkServiceDummy: NetworkServiceProtocol {
-    public var scheme: String = ""
+class NetworkServiceDummy: NetworkServiceProtocol {
+    var scheme: String = ""
+    var subdomain: String = ""
+    var domain: String = ""
 
-    public var subdomain: String = ""
-
-    public var domain: String = ""
-
-    public func request(_ endpoint: Endpoint, completion: @escaping (Result<Data, Error>) -> Void) {
-    }
+    func request(_ endpoint: Endpoint, completion: @escaping (Result<Data, Error>) async -> Void) async { }
 }

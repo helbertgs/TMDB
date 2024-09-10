@@ -3,45 +3,57 @@ import XCTest
 
 final class MovieInteractorTests: XCTestCase {
 
-    func testMoviesInteractor_fetchMovies() throws {
+    @MainActor
+    func testMovieInteractor_fetchMovies() async throws {
         // Given a MovieInteractor
-        let interactor = MovieInteractorSpy(presenter: MoviePresenterDummy(), networkService: NetworkServiceDummy())
+        let interactor = MovieInteractorSpy()
+        interactor.presenter = MoviePresenterDummy()
+        interactor.networkService = NetworkServiceDummy()
 
         // When fetchMovies function is called
-        interactor.fetchMovies()
+        await interactor.fetchMovies()
 
         // Then fetchMoviesCounter is equal 1
         XCTAssertEqual(interactor.fetchMoviesCounter, 1)
     }
 
-    func testMoviesInteractor_filterPopularMovies() throws {
+    @MainActor
+    func testMovieInteractor_fetchPopularMovies() async throws {
         // Given a MovieInteractor
-        let interactor = MovieInteractorSpy(presenter: MoviePresenterDummy(), networkService: NetworkServiceDummy())
+        let interactor = MovieInteractorSpy()
+        interactor.presenter = MoviePresenterDummy()
+        interactor.networkService = NetworkServiceDummy()
 
-        // When filterPopularMovies function is called
-        interactor.filterPopularMovies()
+        // When fetchPopularMovies function is called
+        await interactor.fetchPopularMovies()
 
         // Then filterPopularMoviesCounter is equal 1
-        XCTAssertEqual(interactor.filterPopularMoviesCounter, 1)
+        XCTAssertEqual(interactor.fetchPopularMoviesCounter, 1)
     }
 
-    func testMoviesInteractor_filterUpcomingMovies() throws {
+    @MainActor
+    func testMovieInteractor_fetchUpcomingMovies() async throws {
         // Given a MovieInteractor
-        let interactor = MovieInteractorSpy(presenter: MoviePresenterDummy(), networkService: NetworkServiceDummy())
+        let interactor = MovieInteractorSpy()
+        interactor.presenter = MoviePresenterDummy()
+        interactor.networkService = NetworkServiceDummy()
 
-        // When filterUpcomingMovies function is called
-        interactor.filterUpcomingMovies()
+        // When fetchUpcomingMovies function is called
+        await interactor.fetchUpcomingMovies()
 
-        // Then filterUpcomingMoviesCounter is equal 1
-        XCTAssertEqual(interactor.filterUpcomingMoviesCounter, 1)
+        // Then fetchUpcomingMoviesCounter is equal 1
+        XCTAssertEqual(interactor.fetchUpcomingMoviesCounter, 1)
     }
 
-    func testMoviesInteractor_requestMovies() {
+    @MainActor
+    func testMovieInteractor_requestMovies() async throws {
         // Given a MovieInteractor
-        let interactor = MovieInteractorMock(presenter: MoviePresenterDummy(), networkService: NetworkServiceMock())
+        let interactor = MovieInteractorMock()
+        interactor.presenter = MoviePresenterDummy()
+        interactor.networkService = NetworkServiceDummy()
 
         // When fetchMovies function is called
-        interactor.fetchMovies()
+        await interactor.fetchMovies()
 
         // Then page is equal 1 and lang is equal = "en-US"
         XCTAssertEqual(interactor.page, 1)
