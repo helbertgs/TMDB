@@ -1,4 +1,5 @@
 # TMDB - App Test
+[![Maintainability](https://api.codeclimate.com/v1/badges/0784475a37d4ecfd5f59/maintainability)](https://codeclimate.com/github/helbertgs/TMDB/maintainability)
 
 ## Objetivo
 Criação de uma aplicação, que exibe uma lista de fimes usando a API do [TMDB]().
