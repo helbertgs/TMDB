@@ -2,10 +2,6 @@ import SwiftUI
 
 @MainActor
 class MovieCoordinator {
-    init() {
-
-    }
-
     static func movieList() -> some View {
         var view = MovieView()
         let presenter = MoviePresenter()
