@@ -1,3 +1,4 @@
+import Foundation
 import SwiftUI
 
 @MainActor
@@ -7,10 +8,9 @@ final class MovieInteractor: MovieInteractorProtocol {
     var presenter: (any MoviePresenterProtocol)?
     var page: Int = 1
     var currentPage: Int = 0
-    var dataSources = Set<Movie>()
+    var dataSources = [Movie]()
 
     func fetchMovies() async {
-        print("\(Self.self).\(#function)")
         if page > currentPage {
             await networkService?.request(MovieEndpoint.popular(page: page)) { result in
                 switch result {
@@ -34,30 +34,22 @@ final class MovieInteractor: MovieInteractorProtocol {
 
     func insert(_ movie: Movie) {
         if !dataSources.contains(where: { $0.id == movie.id }) {
-            print("\(Self.self).\(#function) = \(movie.title ?? "")")
-            dataSources.insert(movie)
+            dataSources.append(movie)
         }
     }
 
     func fetchPopularMovies() async {
-//        print("\(Self.self).\(#function)")
         self.presenter?.isFilteredByUpcomingMovies = false
         await fetchMovies()
     }
 
     func fetchUpcomingMovies() async {
-//        print("\(Self.self).\(#function)")
         self.presenter?.isFilteredByUpcomingMovies = true
         await fetchMovies()
     }
 
-    func fetchFavoriteMovies() async {
-//        print("\(Self.self).\(#function)")
-    }
-
     func displaying(_ movie: Movie) async {
-//        print("\(Self.self).\(#function) = \(movie.title ?? "")")
-        if Array(dataSources).last == movie {
+        if dataSources.last == movie {
             page += 1
             await fetchMovies()
         }

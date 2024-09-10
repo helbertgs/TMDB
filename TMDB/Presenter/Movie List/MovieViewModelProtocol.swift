@@ -13,5 +13,5 @@ public class MovieViewModel: MovieViewModelProtocol, ObservableObject {
     @Published var movies: [Movie] = []
     @Published var isFilteredByUpcomingMovies: Bool = false
     @Published var error: Error?
-
+    @Published var isLoading: Bool = false
 }

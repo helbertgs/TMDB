@@ -1,6 +1,6 @@
 import Foundation
 
-public struct MovieResult : Decodable {
+public struct MovieResponse : Decodable {
     let page: Int
     let results: [Movie]
     let totalPages, totalResults: Int

@@ -1,7 +1,7 @@
 import SwiftUI
 
 @MainActor
-class MovieRouter {
+class MovieCoordinator {
     init() {
 
     }
