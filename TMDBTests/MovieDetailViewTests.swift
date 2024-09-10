@@ -1,8 +1,12 @@
+@testable import TMDB
+import XCTest
+
 final class MovieDetailViewTests: XCTestCase {
     @MainActor
     func testMovieDetailView_update_movie() async throws {
         // Given a MovieDetailView
         let view = MovieDetailViewSpy()
+        view.interactor = MovieDetailInteractorDummy()
 
         // When update movie function is called
         await view.update(movie: movieDummy)
@@ -15,6 +19,7 @@ final class MovieDetailViewTests: XCTestCase {
     func testMovieDetailView_update_cast() async throws {
         // Given a MovieDetailView
         let view = MovieDetailViewSpy()
+        view.interactor = MovieDetailInteractorDummy()
 
         // When update cast function is called
         await view.update(cast: [])
@@ -27,9 +32,10 @@ final class MovieDetailViewTests: XCTestCase {
     func testMovieDetailView_update_error() async throws {
         // Given a MovieDetailView
         let view = MovieDetailViewSpy()
+        view.interactor = MovieDetailInteractorDummy()
 
         // When update error function is called
-        await view.update(cast: [])
+        await view.update(error: ErrorMock())
 
         // Then updateErrorCounter is equal 1
         XCTAssertEqual(view.updateErrorCounter, 1)

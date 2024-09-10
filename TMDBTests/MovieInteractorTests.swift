@@ -46,17 +46,16 @@ final class MovieInteractorTests: XCTestCase {
     }
 
     @MainActor
-    func testMovieInteractor_requestMovies() async throws {
+    func testMovieInteractor_displaying() async throws {
         // Given a MovieInteractor
-        let interactor = MovieInteractorMock()
+        let interactor = MovieInteractorSpy()
         interactor.presenter = MoviePresenterDummy()
         interactor.networkService = NetworkServiceDummy()
 
-        // When fetchMovies function is called
-        await interactor.fetchMovies()
+        // When displaying function is called
+        await interactor.displaying(movieDummy)
 
-        // Then page is equal 1 and lang is equal = "en-US"
-        XCTAssertEqual(interactor.page, 1)
-        XCTAssertEqual(interactor.lang, "en-US")
+        // Then displayingCounter is equal 1
+        XCTAssertEqual(interactor.displayingCounter, 1)
     }
 }
