@@ -1,3 +1,5 @@
+import Foundation
+
 final class Formatter {
 
     static let shared = Formatter()
@@ -19,5 +21,11 @@ final class Formatter {
     func format(_ str: String) -> String {
         guard let date = defaultDateFormat.date(from: str) else { return str }
         return requiredDateFormat.string(from: date)
+    }
+
+    func isUpcoming(_ movie: Movie) -> Bool {
+        guard let releaseDate = defaultDateFormat.date(from: movie.releaseDate ?? "") else { return false }
+        return releaseDate.timeIntervalSinceReferenceDate > Date.now.timeIntervalSinceReferenceDate
+
     }
 }
