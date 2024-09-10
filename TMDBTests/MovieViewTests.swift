@@ -1,42 +1,49 @@
-//
-//  NetworkServiceTests 2.swift
-//  TMDB
-//
-//  Created by Helbert Gomes on 2024-09-10.
-//
-
-
 @testable import TMDB
 import XCTest
 
-final class NetworkServiceTests: XCTestCase {
+final class MovieViewTests: XCTestCase {
 
     @MainActor
-    func testNetworkService_request() async throws {
-        // Given a NetworkService
-        let networkService = NetworkServiceSpy()
+    func testMovieView_updateMovies() async throws {
+        // Given a MovieView
+        let view = MovieViewSpy()
 
-        // When request function is called
-        await networkService.request(EndpointDummy(), completion: { _ in })
+        // When update movies function is called
+        await view.update(movies: [], isFilteredByUpcomingMovies: false)
 
-        // Then requestCount is equal 1
-        XCTAssertEqual(networkService.requestCount, 1)
+        // Then updateMoviesCounter is equal 1
+        XCTAssertEqual(view.updateMoviesCounter, 1)
     }
 
     @MainActor
-    func testNetworkService_request_with_parameters() async throws {
-        // Given a NetworkService
+    func testMovieView_updateError() async throws {
+        // Given a MovieView
+        let view = MovieViewSpy()
+
+        // When update error function is called
+        await view.update(error: ErrorMock())
+
+        // Then updateErrorCounter is equal 1
+        XCTAssertEqual(view.updateErrorCounter, 1)
+    }
+
+    @MainActor
+    func testMovieView_integration() async throws {
+        // Given a View, Interactor, Presenter and Services
+        var view = MovieViewMock()
+        let interactor = MovieInteractorMock()
+        let presenter = MoviePresenterMock()
         let networkService = NetworkServiceMock()
 
-        // When request function is called
-        await networkService.request(EndpointMock(path: "nowPlaying")) { result in
+        view.interactor = interactor
+        interactor.presenter = presenter
+        interactor.networkService = networkService
+        presenter.view = view
 
-            switch result {
-            case let .success(data):
-                XCTAssertNotNil(data)
-            case let .failure(error):
-                XCTAssertEqual(error.localizedDescription, "")
-            }
-        }
+        // When update fetchMovies function is called
+        await interactor.fetchMovies()
+
+        // Then will display 20 movies
+        XCTAssertEqual(view.viewModel.movies.count, 20)
     }
 }

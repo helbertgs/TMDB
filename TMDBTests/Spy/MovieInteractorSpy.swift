@@ -2,13 +2,9 @@
 import SwiftUI
 
 class MovieInteractorSpy: MovieInteractorProtocol {
-
-    
-
     var presenter: (any MoviePresenterProtocol)?
     var networkService: (any NetworkServiceProtocol)?
     var page: Int = 0
-    var lang: String = ""
 
     var fetchPopularMoviesCounter: Int = 0
     var fetchMoviesCounter: Int = 0

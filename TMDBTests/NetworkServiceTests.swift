@@ -16,12 +16,46 @@ final class NetworkServiceTests: XCTestCase {
     }
 
     @MainActor
-    func testNetworkService_request_with_parameters() async throws {
+    func testNetworkService_request_nowPlaying() async throws {
         // Given a NetworkService
         let networkService = NetworkServiceMock()
 
         // When request function is called
-        await networkService.request(EndpointDummy(path: "nowPlaying")) { result in
+        await networkService.request(EndpointMock(path: "popular")) { result in
+
+            switch result {
+            case let .success(data):
+                XCTAssertNotNil(data)
+            case let .failure(error):
+                XCTAssertEqual(error.localizedDescription, "")
+            }
+        }
+    }
+
+    @MainActor
+    func testNetworkService_request_details() async throws {
+        // Given a NetworkService
+        let networkService = NetworkServiceMock()
+
+        // When request function is called
+        await networkService.request(EndpointMock(path: "details")) { result in
+
+            switch result {
+            case let .success(data):
+                XCTAssertNotNil(data)
+            case let .failure(error):
+                XCTAssertEqual(error.localizedDescription, "")
+            }
+        }
+    }
+
+    @MainActor
+    func testNetworkService_request_credits() async throws {
+        // Given a NetworkService
+        let networkService = NetworkServiceMock()
+
+        // When request function is called
+        await networkService.request(EndpointMock(path: "cast")) { result in
 
             switch result {
             case let .success(data):

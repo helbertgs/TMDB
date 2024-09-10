@@ -8,7 +8,7 @@ class MoviePresenterSpy: MoviePresenterProtocol {
     var presentMoviesCount: Int = 0
     var presentErrorCount: Int = 0
 
-    func present(movies: [TMDB.Movie]) async {
+    func present(movies: [Movie]) async {
         presentMoviesCount += 1
     }
 
