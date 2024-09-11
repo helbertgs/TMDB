@@ -1,6 +1,7 @@
 @testable import TMDB
 import Foundation
 
+@MainActor
 class NetworkServiceDummy: NetworkServiceProtocol {
     var scheme: String = ""
     var subdomain: String = ""

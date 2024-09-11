@@ -1,6 +1,7 @@
 @testable import TMDB
 import SwiftUI
 
+@MainActor
 struct MovieViewMock: MovieViewProtocol {
     var viewModel: MovieViewModel = .init()
     

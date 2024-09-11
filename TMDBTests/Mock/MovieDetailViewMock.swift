@@ -1,6 +1,7 @@
 @testable import TMDB
 import SwiftUI
 
+@MainActor
 final class MovieDetailViewMock: MovieDetailViewProtocol {
     var body: Never { fatalError() }
     var viewModel: MovieDetailViewModel

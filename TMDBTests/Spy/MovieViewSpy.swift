@@ -1,6 +1,7 @@
 @testable import TMDB
 import SwiftUI
 
+@MainActor
 final class MovieViewSpy: MovieViewProtocol {
     var viewModel: MovieViewModel = MovieViewModel()
     var interactor: (any MovieInteractorProtocol)?

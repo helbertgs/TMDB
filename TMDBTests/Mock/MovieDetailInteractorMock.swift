@@ -1,6 +1,7 @@
 @testable import TMDB
 import Foundation
 
+@MainActor
 final class MovieDetailInteractorMock: MovieDetailInteractorProtocol {
     var networkService: (any NetworkServiceProtocol)?
     var presenter: (any MovieDetailPresenterProtocol)?

@@ -1,6 +1,7 @@
 @testable import TMDB
 import SwiftUI
 
+@MainActor
 final class MoviePresenterMock: MoviePresenterProtocol {
     var view: (any MovieViewProtocol)?
     var isFilteredByUpcomingMovies: Bool = false

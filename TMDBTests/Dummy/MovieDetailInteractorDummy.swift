@@ -1,5 +1,6 @@
 @testable import TMDB
 
+@MainActor
 final class MovieDetailInteractorDummy: MovieDetailInteractorProtocol {
     var networkService: (any NetworkServiceProtocol)?
     var presenter: (any MovieDetailPresenterProtocol)?

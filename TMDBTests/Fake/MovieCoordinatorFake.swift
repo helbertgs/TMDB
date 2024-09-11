@@ -18,7 +18,7 @@ final class MovieCoordinatorFake {
     }
 
     static func movieDetail(_ movie: Movie) -> any MovieDetailViewProtocol {
-        var view = MovieDetailViewMock(viewModel: MovieDetailViewModel(movie: movie))
+        let view = MovieDetailViewMock(viewModel: MovieDetailViewModel(movie: movie))
         let presenter = MovieDetailPresenterMock()
         let networkService = NetworkServiceMock()
         let interactor = MovieDetailInteractorMock()

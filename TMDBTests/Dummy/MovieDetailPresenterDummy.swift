@@ -1,5 +1,6 @@
 @testable import TMDB
 
+@MainActor
 final class MovieDetailPresenterDummy: MovieDetailPresenterProtocol {
     var view: (any MovieDetailViewProtocol)?
     

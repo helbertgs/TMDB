@@ -1,6 +1,7 @@
 @testable import TMDB
 import SwiftUI
 
+@MainActor
 final class NetworkServiceSpy: NetworkServiceProtocol {
 
     var scheme: String = ""

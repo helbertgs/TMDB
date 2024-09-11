@@ -22,6 +22,12 @@ targets:
       PRODUCT_BUNDLE_IDENTIFIER: "br.com.TMDB"
       INFOPLIST_FILE: TMDB/Info.plist
       MARKETING_VERSION: 1.0.0
+    scheme:
+      gatherCoverageData: true
+      testTargets:
+        - name: TMDBTests
+          parallelizable: true
+          randomExecutionOrder: true
 
   TMDBTests:
     type: bundle.unit-test

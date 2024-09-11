@@ -1,5 +1,6 @@
 @testable import TMDB
 
+@MainActor
 class MoviePresenterDummy: MoviePresenterProtocol {
     var isFilteredByUpcomingMovies: Bool = false
     var view: (any MovieViewProtocol)?

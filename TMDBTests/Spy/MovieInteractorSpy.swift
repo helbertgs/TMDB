@@ -1,6 +1,7 @@
 @testable import TMDB
 import SwiftUI
 
+@MainActor
 class MovieInteractorSpy: MovieInteractorProtocol {
     var presenter: (any MoviePresenterProtocol)?
     var networkService: (any NetworkServiceProtocol)?

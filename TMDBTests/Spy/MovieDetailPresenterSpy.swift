@@ -1,5 +1,6 @@
 @testable import TMDB
 
+@MainActor
 final class MovieDetailPresenterSpy: MovieDetailPresenterProtocol {
     var view: (any MovieDetailViewProtocol)?
 
