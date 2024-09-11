@@ -13,6 +13,16 @@ settings:
 
 targets:
 
+  TMDB:
+    type: application 
+    platform: iOS
+    deploymentTarget: 17.0
+    sources: [TMDB]
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: "br.com.TMDB"
+      INFOPLIST_FILE: TMDB/Info.plist
+      MARKETING_VERSION: 1.0.0
+
   TMDBTests:
     type: bundle.unit-test
     platform: iOS
@@ -29,12 +39,4 @@ targets:
           parallelizable: true
           randomExecutionOrder: true
 
-  TMDB:
-    type: application 
-    platform: iOS
-    deploymentTarget: 17.0
-    sources: [TMDB]
-    settings:
-      PRODUCT_BUNDLE_IDENTIFIER: "br.com.TMDB"
-      INFOPLIST_FILE: TMDB/Info.plist
-      MARKETING_VERSION: 1.0.0
+  
