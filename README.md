@@ -60,3 +60,8 @@ XCode Build Code Coverage: **63%** - Foram criados `Spy`, `Mocks`, `Fake` e `Stu
 ## Links de referência
 - [VIP Architecture](https://medium.com/@aldo.vernando/vip-clean-architecture-in-swiftui-51673a01d24e)
 - [TMDB - API Reference](https://developer.themoviedb.org/reference/intro/getting-started)
+
+## Video
+https://github.com/user-attachments/assets/fb66ab19-b970-461c-8dd4-051f6a2a6c7d
+
+
