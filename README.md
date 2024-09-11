@@ -53,6 +53,9 @@ XCode Build Code Coverage: **63%** - Foram criados `Spy`, `Mocks`, `Fake` e `Stu
 - Sistema operacional: MacOS
 - IDE: Xcode 16
 - Simulador iOS (18.1): iPhone 15 Pro / iPhone 15 Pro Max
+- *Ao abrir o projeto, ter certeza que esteja selecionado o scheme "TMDB, conforme imagem abaixo"*
+
+![Xcode](https://github.com/user-attachments/assets/ea7f6f11-405a-4892-95c1-043c74b2cc5e)
 
 ## Links de referência
 - [VIP Architecture](https://medium.com/@aldo.vernando/vip-clean-architecture-in-swiftui-51673a01d24e)
